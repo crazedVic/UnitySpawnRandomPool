@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectMover : MonoBehaviour
 {
-    float[] heights = { 4, 3, 2, 1, 0, -1, -2, -3, -4 };
+    float[] heights = { 4f, 3.5f, 3f, 2.5f, 2f, 1.5f, 1f, 0.5f, 0, -0.5f, -1f, -1.5f, -2f, 2.5f, -3f, -3.5f, -4f };
     public List<float> currentHeights;
     int maxObjects = 8; // must be at least 1 less than total elements in heights[]
     [SerializeField] int currentObjectCount = 0;
