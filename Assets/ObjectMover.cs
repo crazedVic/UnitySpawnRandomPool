@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectMover : MonoBehaviour
 {
-    float[] heights = { 4f, 3.5f, 3f, 2.5f, 2f, 1.5f, 1f, 0.5f, 0, -0.5f, -1f, -1.5f, -2f, 2.5f, -3f, -3.5f, -4f };
+    float[] heights = { 4f, 3.5f, 3f, 2.5f, 2f, 1.5f, 1f, 0.5f, 0, -0.5f, -1f, -1.5f, -2f, -2.5f, -3f, -3.5f, -4f };
     public List<float> currentHeights;
     int maxObjects = 8; // must be at least 1 less than total elements in heights[]
     [SerializeField] int currentObjectCount = 0;
@@ -28,18 +28,22 @@ public class ObjectMover : MonoBehaviour
             if (bullet.transform.position.x > 8f && bullet.direction == 1)
             {
                 bullet.direction = -1;
-                bullet.transform.position = new Vector2(bullet.transform.position.x + 6f * bullet.direction * Time.deltaTime,
+                bullet.speed = getRandomSpeed();
+                bullet.color = GetRandomColor();
+                bullet.transform.position = new Vector2(bullet.transform.position.x + bullet.speed * bullet.direction * Time.deltaTime,
                     GetRandomY(bullet.transform.position.y));
             }
             else if (bullet.transform.position.x < -8f && bullet.direction == -1)
             {
                 bullet.direction = 1;
-                bullet.transform.position = new Vector2(bullet.transform.position.x + 6f * bullet.direction * Time.deltaTime,
+                bullet.speed = getRandomSpeed();
+                bullet.color = GetRandomColor();
+                bullet.transform.position = new Vector2(bullet.transform.position.x + bullet.speed * bullet.direction * Time.deltaTime,
                     GetRandomY(bullet.transform.position.y));
             }
             else
             {
-                bullet.transform.position = new Vector2(bullet.transform.position.x + 6f * bullet.direction * Time.deltaTime, bullet.transform.position.y);
+                bullet.transform.position = new Vector2(bullet.transform.position.x + bullet.speed * bullet.direction * Time.deltaTime, bullet.transform.position.y);
             }
         }
     }
@@ -53,10 +57,26 @@ public class ObjectMover : MonoBehaviour
 
             Bullet newObject = Instantiate(objectToSpawn, GetRandomPosition(), Quaternion.identity);
             newObject.direction = newObject.transform.position.x < 8f ? 1 : -1;
+            newObject.speed = getRandomSpeed();
+            newObject.color = GetRandomColor();
             spawnedObjects.Add(newObject);
             currentObjectCount++;
         }
     }
+
+    float getRandomSpeed()
+    {
+        return Random.Range(2.0f, 5.8f);
+    }
+
+    Color GetRandomColor()
+    {
+        float r = Random.Range(0.2f, 0.8f);
+        float g = Random.Range(0.2f, 0.8f);
+        float b = Random.Range(0.2f, 0.8f);
+        return new Color(r, g, b);
+    }
+
 
     float GetRandomY(float? existingY)
     {
